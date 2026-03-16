@@ -5,3 +5,4 @@ features:
 2.view expenses
 3.calculates expenses
 4.menu-based system
+5.Files are saved automatically
