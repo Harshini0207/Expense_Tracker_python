@@ -1,9 +1,10 @@
-food = 0
-Travel = 0
-Groceries = 0
-personal_expenses = 0
-others = 0
-total = 0
+import json
+
+try:
+    with open("expenses.json", "r") as f:
+        expenses = json.load(f)
+except FileNotFoundError:
+    expenses = {"food": 0, "Travel": 0, "Groceries": 0, "Personal": 0, "Others": 0}
 while True:
     print("Expense Tracker")
     print("1.Add expenses")
@@ -20,51 +21,35 @@ while True:
                               print("expense cannot be negative")
                           return vals
             x = 0
-        # switch cases for category choosing
             while x != 6:
-                print("1.Food")
-                print("2.Travel")
-                print("3.Groceries")
-                print("4.personal expenses")
-                print("5.other")
-                print("6.exit")
-                x = int(input("enter your choice(1,2,3,4,5):"))
+                print("1.Food\n2.Travel\n3.Groceries\n4.personal expenses\n5.Others\n6.Exit")
+                x = int(input("Enter your choice (1-6): "))
+        # switch cases for category choosing
+                categories = {
+                    1: "food",
+                    2: "Travel",
+                    3: "Groceries",
+                    4 :"personal_expenses",
+                    5: "others"
+                }
+                if x in [1,2,3,4,5]:
+                        expenses[categories[x]] += Toprintval()
+                        with open("expenses.json", "w") as f:
+                            json.dump(expenses, f)
 
-                match x:
-                    case 1:
-                        food = Toprintval()
-                        print("food : ", food)
+                else:
+                    print("expenses added")
 
-                    case 2:
-                        Travel = Toprintval()
-                        print("Travel : ", Travel)
-                    case 3:
-                        Groceries = Toprintval()
-                        print("Groceries : ", Groceries)
-                    case 4:
-                        personal_expenses = Toprintval()
-                        print("personal expenses : ", personal_expenses)
-                    case 5:
-                        others = Toprintval()
-                        print("others : ", others)
-                    case 6:
-                        print("expenses added")
-                        break
-        # to view expenses
-                with open("expenses.txt", "w") as f:
-                    for category, amount in expenses.items():
-                        f.write(f"{category}:{amount}\n")
+                    #to view expenses
         case 2:
 
                     print("\n------ Expenses ------")
-                    print("food : ", food)
-                    print("Travel : ", Travel)
-                    print("Groceries : ", Groceries)
-                    print("personal expenses : ", personal_expenses)
-                    print("others : ", others)
+                    for category, amount in expenses.items():
+                        print(category, ":", amount)
         case 3:
+                    total = 0
                     print("show total")
-                    total = food + Travel + Groceries + personal_expenses + others
+                    total = sum(expenses.values())
                     print("total : ",total)
         case 4:
                     print("thank you")
